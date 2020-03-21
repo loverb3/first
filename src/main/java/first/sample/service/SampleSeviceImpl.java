@@ -1,6 +1,6 @@
 package first.sample.service;
 
-//import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-//import org.springframework.web.multipart.MultipartFile;
-//import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import first.common.util.FileUtiles;
 import first.sample.dao.SampleDAO;
@@ -61,7 +59,13 @@ public class SampleSeviceImpl implements SampleService {
 	@Override
 	public Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception {
 		sampleDAO.updateHitCnt(map);
-		Map<String, Object> resultMap = sampleDAO.selectBoardDetail(map);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> tempMap = sampleDAO.selectBoardDetail(map);
+		resultMap.put("map", tempMap);
+		
+		List<Map<String, Object>> list = sampleDAO.selectFileList(map);
+		resultMap.put("list", list);
+		
 		return resultMap;
 	}
 	
